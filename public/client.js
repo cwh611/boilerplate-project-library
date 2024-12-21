@@ -15,9 +15,9 @@ document.getElementById("view-library-btn").addEventListener("click", (event) =>
 });
 
 const addTitleInput = document.getElementById("add-title-input");
-const addAuthorInput = document.getElementById("get-author-input");
+const addAuthorInput = document.getElementById("add-author-input");
 const addGenreInput = document.getElementById("add-genre-input");
-const addYearPublishedInput = document.getElementById("get-year-published-input");
+const addYearPublishedInput = document.getElementById("add-year-published-input");
 
 document.getElementById("add-book-btn").addEventListener("click", (event) => {
   const title = addTitleInput.value ? addTitleInput.value : "";

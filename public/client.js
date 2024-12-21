@@ -73,8 +73,8 @@ document.getElementById("delete-book-btn").addEventListener("click", (event) => 
 
 document.getElementById("delete-library-btn").addEventListener("click", (event) => {
   event.preventDefault();
-  const confirm = confirm("Are you sure you want to delete the library? This cannot be undone.");
-  if (confirm) {
+  const confirmDelete = confirm("Are you sure you want to delete the library? This cannot be undone.");
+  if (confirmDelete) {
     fetch("https://chunk-library-905782540339.herokuapp.com/api/books", {
       method: "DELETE",
       headers: {

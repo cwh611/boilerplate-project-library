@@ -95,7 +95,7 @@ document.getElementById("delete-library-btn").addEventListener("click", (event) 
 
 document.getElementById("add-comment-btn").addEventListener("click", (event) => {
   event.preventDefault();
-  const selectedBook = document.getElementById("select-book").value;
+  const selectedBook = document.getElementById("select-book-input").value;
   const comment = document.getElementById("input-comment").value;
   fetch(`https://chunk-library-905782540339.herokuapp.com/api/books/${selectedBook}`, {
     method: "POST",

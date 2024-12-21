@@ -2,7 +2,7 @@ const resultsElement = document.getElementById("results");
 
 document.getElementById("view-library-btn").addEventListener("click", (event) => {
   event.preventDefault();
-  fetch("app.heroku/api/books")
+  fetch("https://chunk-library-905782540339.herokuapp.com/api/books")
     .then(response => response.json())
     .then(data => {
       resultsElement.innerText = data;
@@ -25,7 +25,7 @@ document.getElementById("add-book-btn").addEventListener("click", (event) => {
   const genre = addGenreInput.value ? addGenreInput.value : "";
   const publishedYear = addYearPublishedInput.value ? addYearPublishedInput.value : "";
   event.preventDefault();
-  fetch("app.heroku/api/books", {
+  fetch("https://chunk-library-905782540339.herokuapp.com/api/books", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -49,7 +49,7 @@ document.getElementById("add-book-btn").addEventListener("click", (event) => {
 
 document.getElementById("delete-book-btn").addEventListener("click", (event) => {
   const deleteBookId = document.getElementById("delete-book-input").value;
-  fetch(`/api/books/${deleteBookId}`, {
+  fetch(`https://chunk-library-905782540339.herokuapp.com/api/books/${deleteBookId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json"
@@ -70,7 +70,7 @@ document.getElementById("delete-library-btn").addEventListener("click", (event) 
   event.preventDefault();
   const confirm = confirm("Are you sure you want to delete the library? This cannot be undone.");
   if (confirm) {
-    fetch("/api/books", {
+    fetch("https://chunk-library-905782540339.herokuapp.com/api/books", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -88,7 +88,7 @@ document.getElementById("add-comment-btn").addEventListener("click", (event) => 
   event.preventDefault();
   const selectedBook = document.getElementById("select-book").value;
   const comment = document.getElementById("input-comment").value;
-  fetch(`/api/books/${selectedBook}`, {
+  fetch(`https://chunk-library-905782540339.herokuapp.com/api/books/${selectedBook}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -108,7 +108,7 @@ document.getElementById("add-comment-btn").addEventListener("click", (event) => 
 document.getElementById("find-btn").addEventListener("click", (event) => {
   event.preventDefault();
   const _id = document.getElementById("find-_id-input").value;
-  fetch(`/api/books/${_id}`)
+  fetch(`https://chunk-library-905782540339.herokuapp.com/api/books/${_id}`)
     .then(response => response.json())
     .then(data => {
       resultsElement.innerText = data;

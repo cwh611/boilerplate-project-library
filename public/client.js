@@ -1,85 +1,120 @@
-$( document ).ready(function() {
-  let  items = [];
-  let  itemsRaw = [];
-  
-  $.getJSON('/api/books', function(data) {
-    //let  items = [];
-    itemsRaw = data;
-    $.each(data, function(i, val) {
-      items.push('<li class="bookItem" id="' + i + '">' + val.title + ' - ' + val.commentcount + ' comments</li>');
-      return ( i !== 14 );
-    });
-    if (items.length >= 15) {
-      items.push('<p>...and '+ (data.length - 15)+' more!</p>');
-    }
-    $('<ul/>', {
-      'class': 'listWrapper',
-      html: items.join('')
-      }).appendTo('#display');
-  });
-  
-  let  comments = [];
-  $('#display').on('click','li.bookItem',function() {
-    $("#detailTitle").html('<b>'+itemsRaw[this.id].title+'</b> (id: '+itemsRaw[this.id]._id+')');
-    $.getJSON('/api/books/'+itemsRaw[this.id]._id, function(data) {
-      comments = [];
-      $.each(data.comments, function(i, val) {
-        comments.push('<li>' +val+ '</li>');
-      });
-      comments.push('<br><form id="newCommentForm"><input style="width:300px" type="text" class="form-control" id="commentToAdd" name="comment" placeholder="New Comment"></form>');
-      comments.push('<br><button class="btn btn-info addComment" id="'+ data._id+'">Add Comment</button>');
-      comments.push('<button class="btn btn-danger deleteBook" id="'+ data._id+'">Delete Book</button>');
-      $('#detailComments').html(comments.join(''));
-    });
-  });
-  
-  $('#bookDetail').on('click','button.deleteBook',function() {
-    $.ajax({
-      url: '/api/books/'+this.id,
-      type: 'delete',
-      success: function(data) {
-        //update list
-        $('#detailComments').html('<p style="color: red;">'+data+'<p><p>Refresh the page</p>');
-      }
-    });
-  });  
-  
-  $('#bookDetail').on('click','button.addComment',function() {
-    let  newComment = $('#commentToAdd').val();
-    $.ajax({
-      url: '/api/books/'+this.id,
-      type: 'post',
-      dataType: 'json',
-      data: $('#newCommentForm').serialize(),
-      success: function(data) {
-        comments.unshift(newComment); //adds new comment to top of list
-        $('#detailComments').html(comments.join(''));
-      }
-    });
-  });
-  
-  $('#newBook').click(function() {
-    $.ajax({
-      url: '/api/books',
-      type: 'post',
-      dataType: 'json',
-      data: $('#newBookForm').serialize(),
-      success: function(data) {
-        //update list
-      }
-    });
-  });
-  
-  $('#deleteAllBooks').click(function() {
-    $.ajax({
-      url: '/api/books',
-      type: 'delete',
-      dataType: 'json',
-      data: $('#newBookForm').serialize(),
-      success: function(data) {
-        //update list
-      }
-    });
-  }); 
-  
+const resultsElement = document.getElementById("results");
+
+document.getElementById("view-library-btn").addEventListener("click", (event) => {
+  event.preventDefault();
+  fetch("app.heroku/api/books")
+    .then(response => response.json())
+    .then(data => {
+      resultsElement.innerText = data;
+      console.log(data)
+    })
+    .catch(err => {
+      console.log(err);
+      alert(`Request error: ${err}`);
+    })
 });
+
+const addTitleInput = document.getElementById("add-title-input");
+const addAuthorInput = document.getElementById("get-author-input");
+const addGenreInput = document.getElementById("add-genre-input");
+const addYearPublishedInput = document.getElementById("get-year-published-input");
+
+document.getElementById("add-book-btn").addEventListener("click", (event) => {
+  const title = addTitleInput.value ? addTitleInput.value : "";
+  const author = addAuthorInput.value ? addAuthorInput.value : "";
+  const genre = addGenreInput.value ? addGenreInput.value : "";
+  const publishedYear = addYearPublishedInput.value ? addYearPublishedInput.value : "";
+  event.preventDefault();
+  fetch("app.heroku/api/books", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: {
+      title,
+      author,
+      genre,
+      publishedYear
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      resultsElement.innerText = data;
+    })
+    .catch(err => {
+      console.log(err);
+      alert(`Request error: ${err}`);
+    })
+});
+
+document.getElementById("delete-book-btn").addEventListener("click", (event) => {
+  const deleteBookId = document.getElementById("delete-book-input").value;
+  fetch(`/api/books/${deleteBookId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: `delete request: book ${deleteBookId}`
+  })
+    .then(response => response.json())
+    .then(data => {
+      resultsElement.innerText = data;
+    })
+    .catch(err => {
+      console.log(err);
+      alert(`Request error: ${err}`);
+    })
+});
+
+document.getElementById("delete-library-btn").addEventListener("click", (event) => {
+  event.preventDefault();
+  const confirm = confirm("Are you sure you want to delete the library? This cannot be undone.");
+  if (confirm) {
+    fetch("/api/books", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: "delete request: library"
+    })
+      .catch(err => {
+        console.log(err);
+        alert(`Request error: ${err}`);
+      })
+  } else return;
+});
+
+document.getElementById("add-comment-btn").addEventListener("click", (event) => {
+  event.preventDefault();
+  const selectedBook = document.getElementById("select-book").value;
+  const comment = document.getElementById("input-comment").value;
+  fetch(`/api/books/${selectedBook}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: {comment}
+  })
+    .then(response => response.json())
+    .then(data => {
+      resultsElement.innerText = data;
+    })
+    .catch(err => {
+      console.log(err);
+      alert(`Request error: ${err}`);
+    })
+});
+
+document.getElementById("find-btn").addEventListener("click", (event) => {
+  event.preventDefault();
+  const _id = document.getElementById("find-_id-input").value;
+  fetch(`/api/books/${_id}`)
+    .then(response => response.json())
+    .then(data => {
+      resultsElement.innerText = data;
+    })
+    .catch(err => {
+      console.log(err);
+      alert(`Request error: ${err}`);
+    })
+})

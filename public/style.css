@@ -1,34 +1,88 @@
-.border {
-  border-style: solid;
-  border-width: 1px;
-  margin: 10px;
+* {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(197, 198, 185);
+  color: black;
+  font-family: "Courier New", Courier, monospace;
+  box-sizing: border-box
 }
 
-#sampleui {
-  max-width: 450px;
-  margin-left: 5%;
-  height: 100%;
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
 }
 
-#sampleposting {
-  max-width: 450px;
+header {
   text-align: center;
-  margin-left: 5%;
+  margin-top: 35px;
 }
 
-#userstories {
-  margin-left: 5%;
+main {
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  margin-right: 100px;
+  justify-content: space-evenly;
+  flex: 1
+}
+
+#row-1 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%
 }
 
 form {
-  padding: 5px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between
 }
 
-label {
-  display: block;
-  font-weight: bold;
+fieldset {
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column
 }
 
-input {
-  margin-bottom: 5px;
+#find-book-fieldset {
+  justify-content: space-evenly
+}
+
+legend {
+  text-align: center
+}
+
+#input-comment {
+  height: 100%;
+}
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 20px
+}
+
+.input-label {
+  margin-left: 20px;
+  margin-right: 20px
+}
+
+#comment-label {
+  margin-top: 10px;
+  margin-bottom: 10px
+}
+
+#view-library-btn {
+  font-size: 20px;
+}
+
+#delete-container {
+  display: flex;
+  justify-content: space-between
 }

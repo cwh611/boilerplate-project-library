@@ -5,8 +5,8 @@ document.getElementById("view-library-btn").addEventListener("click", (event) =>
   fetch("https://chunk-library-905782540339.herokuapp.com/api/books")
     .then(response => response.json())
     .then(data => {
-      resultsElement.innerText = data;
-      console.log(data)
+      resultsElement.innerText = JSON.stringify(data, null, 2);
+      console.log(JSON.stringify(data, null, 2));
     })
     .catch(err => {
       console.log(err);
@@ -30,16 +30,17 @@ document.getElementById("add-book-btn").addEventListener("click", (event) => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: {
+    body: JSON.stringify({
       title,
       author,
       genre,
       publishedYear
-    }
+    })
   })
     .then(response => response.json())
     .then(data => {
-      resultsElement.innerText = data;
+      resultsElement.innerText = JSON.stringify(data, null, 2);
+      console.log(JSON.stringify(data, null, 2));
     })
     .catch(err => {
       console.log(err);
@@ -53,12 +54,12 @@ document.getElementById("delete-book-btn").addEventListener("click", (event) => 
     method: "DELETE",
     headers: {
       "Content-Type": "application/json"
-    },
-    body: `delete request: book ${deleteBookId}`
+    }
   })
     .then(response => response.json())
     .then(data => {
-      resultsElement.innerText = data;
+      resultsElement.innerText = JSON.stringify(data, null, 2);
+      console.log(JSON.stringify(data, null, 2));
     })
     .catch(err => {
       console.log(err);
@@ -74,9 +75,13 @@ document.getElementById("delete-library-btn").addEventListener("click", (event) 
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
-      },
-      body: "delete request: library"
+      }
     })
+      .then(response => response.json())
+      .then(data => {
+        resultsElement.innerText = JSON.stringify(data, null, 2);
+        console.log(JSON.stringify(data, null, 2));
+      })
       .catch(err => {
         console.log(err);
         alert(`Request error: ${err}`);
@@ -93,11 +98,12 @@ document.getElementById("add-comment-btn").addEventListener("click", (event) => 
     headers: {
       "Content-Type": "application/json"
     },
-    body: {comment}
+    body: JSON.stringify({ comment })
   })
     .then(response => response.json())
     .then(data => {
-      resultsElement.innerText = data;
+      resultsElement.innerText = JSON.stringify(data, null, 2);
+      console.log(JSON.stringify(data, null, 2));
     })
     .catch(err => {
       console.log(err);
@@ -111,7 +117,8 @@ document.getElementById("find-btn").addEventListener("click", (event) => {
   fetch(`https://chunk-library-905782540339.herokuapp.com/api/books/${_id}`)
     .then(response => response.json())
     .then(data => {
-      resultsElement.innerText = data;
+      resultsElement.innerText = JSON.stringify(data, null, 2);
+      console.log(JSON.stringify(data, null, 2));
     })
     .catch(err => {
       console.log(err);

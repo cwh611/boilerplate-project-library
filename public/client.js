@@ -41,6 +41,10 @@ document.getElementById("add-book-btn").addEventListener("click", (event) => {
     .then(data => {
       resultsElement.innerText = JSON.stringify(data, null, 2);
       console.log(JSON.stringify(data, null, 2));
+      document.getElementById("select-book").innerHTML += `
+        <option value="${data.title}">
+          ${data.title}
+        </option>`
     })
     .catch(err => {
       console.log(err);

@@ -43,7 +43,7 @@ document.getElementById("add-book-btn").addEventListener("click", (event) => {
       console.log(JSON.stringify(data, null, 2));
       document.getElementById("select-book").innerHTML += `
         <option value="${data.title}">
-          ${data.title}
+          ${data.title} (${data._id})
         </option>`
     })
     .catch(err => {
